@@ -47,9 +47,6 @@ public class TrafficLight implements ILight {
      */
     private int convertTime(int time) {
         int glowSum = getSumGlow();
-//        while(time>glowSum){
-//            time -=glowSum;
-//        }
         if (time > glowSum) {
             time %= glowSum;
         }
@@ -129,11 +126,11 @@ public class TrafficLight implements ILight {
             String exit = "no";
             while (!exit.equals("yes")) {
                 try {
-                    System.out.println("Enter time for a Green color: ");
+                    System.out.println("Enter glow time for a Green color: ");
                     Color.Green.setGlowTime(reader.nextInt());
-                    System.out.println("Enter time for a Yellow color: ");
+                    System.out.println("Enter glow time for a Yellow color: ");
                     Color.Yellow.setGlowTime(reader.nextInt());
-                    System.out.println("Enter time for a Red color: ");
+                    System.out.println("Enter glow time for a Red color: ");
                     Color.Red.setGlowTime(reader.nextInt());
                     System.out.println("Enter minute: ");
                     int minute = reader.nextInt();
