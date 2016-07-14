@@ -2,6 +2,7 @@ package com.light.trafficlight;
 
 import com.light.color.Color;
 import com.light.trafficlight.exception.InvalidTimeException;
+import com.light.trafficlight.exception.SumColorTimeException;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class TrafficLight implements ILight {
         return currentTime;
     }
 
-    public void setCurrentTime(int currentTime) throws InvalidTimeException {
+    public void setCurrentTime(int currentTime) throws InvalidTimeException, SumColorTimeException {
         this.currentTime = currentTime;
         currentColor = getColorByTime(currentTime);
     }
@@ -60,7 +61,7 @@ public class TrafficLight implements ILight {
      * @param time which
      * @throws InvalidTimeException
      */
-    private Color defineColor(int time) throws InvalidTimeException {
+    private Color defineColor(int time) throws InvalidTimeException, SumColorTimeException {
         checkTimeOnValid(time);
         int minutes = convertTime(time);
         int greenGlowMinute = Color.Green.getGlowTime();
@@ -84,14 +85,17 @@ public class TrafficLight implements ILight {
      * @param time which will be checked on a validity.
      * @throws InvalidTimeException if time is not a positive number.
      */
-    private void checkTimeOnValid(int time) throws InvalidTimeException {
+    private void checkTimeOnValid(int time) throws InvalidTimeException, SumColorTimeException {
         if (time < 0) {
             throw new InvalidTimeException("Value a specified time: " + time + " is invalid. Value must be positive numbers.");
+        }
+        if (getSumGlow()==0) {
+            throw new SumColorTimeException("Sum all color glow-time: " + getSumGlow() + " is less then a specified time: " + time);
         }
     }
 
     @Override
-    public Color getColorByTime(int time) throws InvalidTimeException {
+    public Color getColorByTime(int time) throws InvalidTimeException, SumColorTimeException {
         return defineColor(time);
     }
 
@@ -113,6 +117,8 @@ public class TrafficLight implements ILight {
                     exit = reader.next();
                 } catch (InvalidTimeException e) {
                     System.out.println("Minute must be positive numbers");
+                } catch (SumColorTimeException e) {
+                    System.out.println("Sum glow-times is less then a specified time.");
                 }
             }
         } finally {
@@ -144,6 +150,8 @@ public class TrafficLight implements ILight {
                     exit = reader.next();
                 } catch (InvalidTimeException e) {
                     System.out.println("Minute must be positive numbers");
+                } catch (SumColorTimeException e) {
+                    System.out.println("Sum glow-times is less then a specified time.");
                 }
             }
         } finally {
