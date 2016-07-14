@@ -9,10 +9,10 @@ import com.light.trafficlight.TrafficLight;
  */
 public class Main {
     public static void main(String[] args) {
-        ITrafficLight trafficLight = new TrafficLight();
-        trafficLight.printColorByMinute();
+//        ITrafficLight trafficLight = new TrafficLight();
+//        trafficLight.printColorByMinute();
 
-//        ILight trafficLight = new TrafficLight();
-//        trafficLight.printColorByMinuteTwo();
+        ILight trafficLight = new TrafficLight();
+        trafficLight.printColorByMinuteTwo();
     }
 }
