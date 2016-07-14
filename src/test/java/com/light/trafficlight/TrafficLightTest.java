@@ -2,6 +2,7 @@ package com.light.trafficlight;
 
 import com.light.color.Color;
 import com.light.trafficlight.exception.InvalidTimeException;
+import com.light.trafficlight.exception.SumColorTimeException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,7 +16,7 @@ public class TrafficLightTest {
     }
 
     @Test
-    public void getSetCurrentTime() throws InvalidTimeException {
+    public void getSetCurrentTime() throws InvalidTimeException, SumColorTimeException {
         ILight trafficLight = new TrafficLight();
         assertEquals("Current time is: ", 0, trafficLight.getCurrentTime());
         assertEquals("Current color is: ", Color.Green, trafficLight.getCurrentColor());
@@ -25,64 +26,64 @@ public class TrafficLightTest {
     }
 
     @Test
-    public void checkOnGreenColor() throws InvalidTimeException {
+    public void checkOnGreenColor() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         assertEquals("Color is: ", "Green", light.getColorByTime(0).name());
     }
 
     @Test
-    public void checkOnGreenColorEleven() throws InvalidTimeException {
+    public void checkOnGreenColorEleven() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         assertEquals("Color is: ", "Green", light.getColorByTime(11).name());
     }
 
     @Test
-    public void checkOnYellowColor() throws InvalidTimeException {
+    public void checkOnYellowColor() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         assertEquals("Color is: ", "Yellow", light.getColorByTime(3).name());
     }
 
     @Test
-    public void checkOnYellowColorThirteen() throws InvalidTimeException {
+    public void checkOnYellowColorThirteen() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         assertEquals("Color is: ", "Yellow", light.getColorByTime(13).name());
     }
 
     @Test
-    public void checkOnRedColor() throws InvalidTimeException {
+    public void checkOnRedColor() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         assertEquals("Color is: ", "Yellow", light.getColorByTime(4).name());
     }
 
     @Test
-    public void checkOnRedColorSixteen() throws InvalidTimeException {
+    public void checkOnRedColorSixteen() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         assertEquals("Color is: ", "Red", light.getColorByTime(16).name());
     }
 
 
     @Test
-    public void checkOnRedOtherGlowTime() throws InvalidTimeException {
+    public void checkOnRedOtherGlowTime() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         Color.Red.setGlowTime(2);
         assertEquals("Color is: ", "Red", light.getColorByTime(7).name());
     }
 
     @Test
-    public void checkOnGreenOtherGlowTime() throws InvalidTimeException {
+    public void checkOnGreenOtherGlowTime() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         Color.Red.setGlowTime(2);
         assertEquals("Color is: ", "Green", light.getColorByTime(8).name());
     }
 
     @Test(expected = InvalidTimeException.class)
-    public void setInvalidTime() throws InvalidTimeException {
+    public void setInvalidTime() throws InvalidTimeException, SumColorTimeException {
         ILight trafficLight = new TrafficLight();
         trafficLight.setCurrentTime(-23);
     }
 
     @Test
-    public void checkColorOtherGlowTimes() throws InvalidTimeException {
+    public void checkColorOtherGlowTimes() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         Color.Red.setGlowTime(12);
         Color.Yellow.setGlowTime(23);
@@ -91,7 +92,7 @@ public class TrafficLightTest {
     }
 
     @Test
-    public void checkColorOneGlowTimeZero() throws InvalidTimeException {
+    public void checkColorOneGlowTimeZero() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         Color.Red.setGlowTime(4);
         Color.Yellow.setGlowTime(0);
@@ -100,12 +101,21 @@ public class TrafficLightTest {
     }
 
     @Test
-    public void checkColorTwoGlowTimeZero() throws InvalidTimeException {
+    public void checkColorTwoGlowTimeZero() throws InvalidTimeException, SumColorTimeException {
         ILight light = new TrafficLight();
         Color.Red.setGlowTime(0);
         Color.Yellow.setGlowTime(0);
         Color.Green.setGlowTime(2);
         assertEquals("Color is: ", "Green", light.getColorByTime(6).name());
+    }
+
+    @Test (expected = SumColorTimeException.class)
+    public void checkColorThreeGlowTimeZero() throws InvalidTimeException, SumColorTimeException {
+        ILight light = new TrafficLight();
+        Color.Red.setGlowTime(0);
+        Color.Yellow.setGlowTime(0);
+        Color.Green.setGlowTime(0);
+        light.getColorByTime(6).name();
     }
 
 }
