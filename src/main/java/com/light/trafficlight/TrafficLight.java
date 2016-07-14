@@ -120,6 +120,7 @@ public class TrafficLight implements ILight {
         }
     }
 
+    @Override
     public void printColorByMinuteTwo() {
         Scanner reader = new Scanner(System.in);
         try {
