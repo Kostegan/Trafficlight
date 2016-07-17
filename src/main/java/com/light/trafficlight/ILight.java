@@ -10,11 +10,9 @@ import com.light.trafficlight.exception.SumColorTimeException;
 public interface ILight extends ITrafficLight {
     /**
      * Computes a Color which will be shine at a specified time.
-     *
      * @param time at which need to compute a color.
-     * @return color by time.
-     * @throws InvalidTimeException if a time is no  positive numbers.
-     * @throws SumColorTimeException if a specified time is more then sum glow-time.
+     * @return Color which will be set in this time.
+     * @throws InvalidTimeException if a time is no positive numbers.
      */
     Color getColorByTime(int time) throws InvalidTimeException,SumColorTimeException;
 
@@ -23,7 +21,6 @@ public interface ILight extends ITrafficLight {
      */
     Color getCurrentColor();
 
-
     /**
      * @return current time, which is set in a TrafficLight.
      */
@@ -31,8 +28,15 @@ public interface ILight extends ITrafficLight {
 
     /**
      * Set current time.
-     *
      * @param currentTime time, which will be set.
+     * @throws InvalidTimeException if a time is no positive numbers.
+     * @throws SumColorTimeException
+     */
+
+    /**
+     * Set a specified time to currentTime.
+     * @param currentTime time, which is set in a currentTime.
+     * @throws InvalidTimeException if a time is no positive numbers.
      */
     void setCurrentTime(int currentTime) throws InvalidTimeException,SumColorTimeException;
 

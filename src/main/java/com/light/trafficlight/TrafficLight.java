@@ -32,9 +32,12 @@ public class TrafficLight implements ILight {
         currentColor = getColorByTime(currentTime);
     }
 
+    public Color getColorByTime(int time) throws InvalidTimeException, SumColorTimeException {
+        return defineColor(time);
+    }
+
     /**
      * Calculate a sum all glowing minutes from three colors(Green, Yellow, Red).
-     *
      * @return sum all glowing minutes.
      */
     private int getSumGlow() {
@@ -43,7 +46,6 @@ public class TrafficLight implements ILight {
 
     /**
      * todo add comment
-     *
      * @param time which need to convert.
      */
     private int convertTime(int time) {
@@ -56,13 +58,14 @@ public class TrafficLight implements ILight {
 
     /**
      * Defines color at a specified time.
-     * todo comment
-     *
-     * @param time which
-     * @throws InvalidTimeException
+     * @param time at which need to compute a color.
+     * @return Color which will be shine in this time.
+     * @throws InvalidTimeException if time is not a positive number.
+     * @throws SumColorTimeException if glow time of all colors equals zero.
      */
     private Color defineColor(int time) throws InvalidTimeException, SumColorTimeException {
         checkTimeOnValid(time);
+        checkGlowTimeOnValid();
         int minutes = convertTime(time);
         int greenGlowMinute = Color.Green.getGlowTime();
         int yellowGlow = Color.Yellow.getGlowTime();
@@ -81,7 +84,6 @@ public class TrafficLight implements ILight {
 
     /**
      * Time must be a positive number.
-     *
      * @param time which will be checked on a validity.
      * @throws InvalidTimeException if time is not a positive number.
      */
@@ -89,17 +91,18 @@ public class TrafficLight implements ILight {
         if (time < 0) {
             throw new InvalidTimeException("Value a specified time: " + time + " is invalid. Value must be positive numbers.");
         }
-        if (getSumGlow()==0) {
-            throw new SumColorTimeException("Sum all color glow-time: " + getSumGlow() + " is less then a specified time: " + time);
+    }
+
+    /**
+     * The glow time of all colors should not be equals zero.
+     * @throws SumColorTimeException if glow time of all colors equals zero.
+     */
+    private void checkGlowTimeOnValid() throws SumColorTimeException {
+        if (getSumGlow() == 0) {
+            throw new SumColorTimeException("The glow time of all colors equals zero. Glow-time for green-color set: " + Color.Green.getGlowTime() + ", for yellow-color set: " + Color.Yellow.getGlowTime() + ", for red-color set: " + Color.Red.getGlowTime());
         }
     }
 
-    @Override
-    public Color getColorByTime(int time) throws InvalidTimeException, SumColorTimeException {
-        return defineColor(time);
-    }
-
-    @Override
     public void printColorByMinute() {
         Scanner reader = new Scanner(System.in);
         try {
@@ -118,7 +121,7 @@ public class TrafficLight implements ILight {
                 } catch (InvalidTimeException e) {
                     System.out.println("Minute must be positive numbers");
                 } catch (SumColorTimeException e) {
-                    System.out.println("Sum glow-times is less then a specified time.");
+                    System.out.println("The glow time of all colors should not be equals zero.");
                 }
             }
         } finally {
@@ -126,7 +129,6 @@ public class TrafficLight implements ILight {
         }
     }
 
-    @Override
     public void printColorByMinuteTwo() {
         Scanner reader = new Scanner(System.in);
         try {
@@ -151,7 +153,7 @@ public class TrafficLight implements ILight {
                 } catch (InvalidTimeException e) {
                     System.out.println("Minute must be positive numbers");
                 } catch (SumColorTimeException e) {
-                    System.out.println("Sum glow-times is less then a specified time.");
+                    System.out.println("The glow time of all colors should not be equals zero.");
                 }
             }
         } finally {

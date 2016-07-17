@@ -11,5 +11,4 @@ public class MainTwo {
         ILight trafficLight = new TrafficLight();
         trafficLight.printColorByMinuteTwo();
     }
-
 }
